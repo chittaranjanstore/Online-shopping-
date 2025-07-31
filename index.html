@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+      <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chittaranjan Store - অনলাইন</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f9ff; }
+    header { background: linear-gradient(4500deg, #2e86c1, #1b4f72); color: white; text-align: center; padding: 15px; animation: slideDown 0.8s ease-in-out; }
+    nav { text-align: center; margin: 15px 0; }
+    nav button { background: #2e86c1; color: white; border: none; padding: 10px 15px; margin: 5px; font-size: 16px; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+    nav button:hover { background: #1b4f72; }
+    .container { width: 95%; margin: auto; }
+    h2 { text-align: center; margin: 20px 0; animation: fadeIn 0.8s ease-in-out; }
+    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .product { background: white; padding: 10px; border-radius: 8px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); animation: fadeUp 0.6s ease-in-out; }
+    .product img { width: 100%; height: auto; max-height: 180px; object-fit: contain; background:#fff; padding:5px; border-radius:6px; }
+    .product button { background: #8B0000; color: white; border: none; padding: 6px 10px; margin-top: 6px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease-in-out; }
+    .product button:hover { background: #8B0000; transform: scale(1.05); }
+    .product button:active { transform: scale(0.9); background: #8B0000; }
+    select { padding: 4px; margin-top: 4px; animation: fadeUp 0.5s ease-in-out; }
+    .cart { margin-top: 25px; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); animation: fadeIn 1s ease-in-out; }
+    .cart ul { list-style: none; padding: 0; }
+    .cart li { padding: 6px 0; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; }
+    .cart li button { background: red; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+    footer { background: linear-gradient(4500deg, #2e86c1, #145a86); color: white; text-align: center; padding: 12px; margin-top: 10px; animation: slideUp 1.3s ease-in-out; }
+    #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999; justify-content: center; align-items: center; }
+    .spinner { border: 6px solid #f3f3f3; border-top: 6px solid #2e86c1; border-radius: 50%; width: 60px; height: 60px; animation: spin 0.8s linear infinite; }
+  
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  
+     /* Product Click Animation */
+.product:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* Extra Pop Animation */
+.product.pop {
+  animation: pop 0.s ease;
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(0); }
+}
+  
+  </style>
+</head>
+<body>
+  
+  
+<div id="loader"><div class="spinner"></div></div>
+
+<header>
+  <h1>চিত্তৰঞ্জন ষ্ট’ৰ</h1>
+  <p>এতিয়া অনলাইনত অ’ৰ্ডাৰ কৰক!</p>
+</header>
+
+<!-- ✅ Nav -->
+<nav>
+  <button onclick="document.getElementById('kg-section').scrollIntoView({behavior:'smooth'})">⚖️ কেজি সামগ্ৰী</button>
+  <button onclick="document.getElementById('packet-section').scrollIntoView({behavior:'smooth'})">📦 পেকেট সামগ্ৰী</button>
+  <button onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})">🛒 কাৰ্ট</button>
+</nav>
+
+<!-- ✅ Products & Cart -->
+<div class="container">
+
+  <!--    <!-- ⚖️ কেজি সামগ্ৰী -->
+  <section id="kg-section">
+    <h2>⚖️ কেজি সামগ্ৰী</h2>
+    <div class="products">
+      <!-- प्याज -->
+      <div class="product">
+        <img src="5.jpg">
+        <h3>পিয়াজ</h3>
+        <p>₹৩০ (১ কেজি)</p>
+        <p>₹১৫ (৫০০ গ্ৰাম)</p>
+        <select id="qty-onion"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('পিয়াজ',30,'qty-onion')">কাৰ্টত যোগ কৰক</button>
+      </div>
+
+      <!-- आलू -->
+      <div class="product">
+        <img src="6.jpg">
+        <h3>আলু</h3>
+        <p>₹২০ (১ কেজি) | ₹১০ (৫০০ গ্ৰাম)</p>
+        <select id="qty-potato"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('আলু',20,'qty-potato')">কাৰ্টত যোগ কৰক</button>
+      </div>
+
+      <!-- চাউল -->
+      <div class="product">
+        <img src="rice.jpg">
+        <h3>চাউল</h3>
+        <p>₹৫০ (১ কেজি) | ₹২৫ (৫০০ গ্ৰাম)</p>
+        <select id="qty-rice"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('চাউল',50,'qty-rice')">কাৰ্টত যোগ কৰক</button>
+      </div>
+
+      <!-- Dal -->
+      <div class="product">
+        <img src="7.jpg">
+        <h3>মুগ ডাল</h3>
+        <p>₹১১০ (১ কেজি) | ₹৫৫ (৫০০ গ্ৰাম)</p>
+        <select id="qty-dal"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('মুগ ডাল',110,'qty-dal')">কাৰ্টত যোগ কৰক</button>
+      </div>
+
+      <!-- Sugar -->
+      <div class="product">
+        <img src="10.jpg">
+        <h3>চেনী</h3>
+        <p>₹৪৮ (১ কেজি) | ₹২৪ (৫০০ গ্ৰাম)</p>
+        <select id="qty-sugar"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('চেনী',48,'qty-sugar')">কাৰ্টত যোগ কৰক</button>
+      </div>
+
+      <!-- आटा -->
+      <div class="product">
+        <img src="11.jpg">
+        <h3>আটা</h3>
+        <p>₹৩৭ (১ কেজি) | ₹১৮ (৫০০ গ্ৰাম)</p>
+        <select id="qty-atta"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('আটা',37,'qty-atta')">কাৰ্টত যোগ কৰক</button>
+      </div>
+
+      <!-- বুটৰ ড়ালি -->
+      <div class="product">
+        <img src="8.jpg">
+        <h3>বুটৰ ড়ালি</h3>
+        <p>₹১১০ (১ কেজি) | ₹৫৫ (৫০০ গ্ৰাম)</p>
+        <select id="qty-boot-dal"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('বুটৰ ড়ালি',110,'qty-boot-dal')">কাৰ্টত যোগ কৰক</button>
+      </div>
+    
+   <!-- গটা মুগ -->
+      <div class="product">
+        <img src="9.jpg">
+        <h3>গটা মুগ</h3>
+        <p>₹১১০ (১ কেজি) | ₹৫৫ (৫০০ গ্ৰাম)</p>
+        <select id="qty-Gota-mukh"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('গটা মুগ',110,'qty-muk-dal')">কাৰ্টত যোগ কৰক</button>
+      </div>
+    
+    
+  </section>
+  
+  
+ <!-- 📦 পেকেট সামগ্ৰী -->
+  <section id="packet-section" style="margin-top:30px;">
+    <h2>📦 পেকেট সামগ্ৰী</h2>
+    <div class="products">
+      <!-- Soap -->
+      <div class="product">
+        <img src="1.jpg">
+        <h3>চাবন</h3>
+        <p>₹১০ (পিচ)</p>
+        <select id="qty-soap"><option value="1">১ পিচ</option><option value="2">২ পিচ</option></select>
+        <button onclick="addToCart('চাবন',10,'qty-soap')">কাৰ্টত যোগ কৰক</button>
+      </div>
+
+      <!-- Surf Excel -->
+      <div class="product">
+        <img src="2.jpg">
+        <h3>ছাৰ্ফ এক্সেল</h3>
+        <p>₹১৩০ (১ কেজি) | ₹৬৫ (৫০০ গ্ৰাম)</p>
+        <select id="qty-surf"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('ছাৰ্ফ এক্সেল',130,'qty-surf')">কাৰ্টত যোগ কৰক</button>
+      </div>
+
+      <!-- Oil -->
+      <div class="product">
+        <img src="3.jpg">
+        <h3>ৰিফাইণ্ড তেল</h3>
+        <p>₹১৫০ (১ লিটাৰ) | ₹৭৫ (৫০০ গ্ৰাম)</p>
+        <select id="qty-oil"><option value="1">১ লিটাৰ</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('ৰিফাইণ্ড তেল',150,'qty-oil')">কাৰ্টত যোগ কৰক</button>
+      </div>
+
+      <!-- Salt -->
+      <div class="product">
+        <img src="12.jpg">
+        <h3>নুন</h3>
+        <p>₹২০ (১ কেজি) | ₹১০ (৫০০ গ্ৰাম)</p>
+        <select id="qty-salt"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('নুন',20,'qty-salt')">কাৰ্টত যোগ কৰক</button>
+      </div>
+
+      <!-- Tea -->
+      <div class="product">
+        <img src="13.jpg">
+        <h3>চাহপাত</h3>
+        <p>₹২৫০ (১০০ গ্ৰাম) | ₹১২৫ (৫০০ গ্ৰাম)</p>
+        <select id="qty-tea"><option value="1">১ কেজি</option><option value="0.5">৫০০ গ্ৰাম</option></select>
+        <button onclick="addToCart('চাহপাত',250,'qty-tea')">কাৰ্টত যোগ কৰক</button>
+      </div>
+    </div>
+  </section> 
+
+
+  <!-- ✅ Cart -->
+  <section id="cart" class="cart">
+    <h2>আপোনাৰ কাৰ্ট</h2>
+    <ul id="cartItems"></ul>
+    <p><strong>মুঠ: ₹<span id="total">0</span></strong></p>
+    <p><strong>🚚 Shipping: ₹<span id="shipping">20</span></strong></p>
+    <h3>💳 Final Total: ₹<span id="finalTotal">0</span></h3>
+    <button id="orderBtn" style="background:green; color:white; padding:14px 28px; border:none; border-radius:20px;" onclick="checkout()">অ'ৰ্ডাৰ কৰক</button>
+    </section>
+ 
+  
+  <section>
+    <!-- ✅ Contact -->
+  <section id="contact" class="contact">
+    <h2>যোগাযোগ</h2>
+    <p><strong>ঠিকনা:</strong> গাঁও: Ananda Bazar, জিল্লা: Baksa, পিন: 781318</p>
+    <p><strong>মবাইল:</strong> <a href="tel:6001634930">6001634930</a></p>
+    <p><strong>পেমেন্ট:</strong> GPay, PhonePe, Paytm উপলব্ধ</p>
+ </section>
+</div>
+
+  <footer>
+  <p>&copy; 2025 Chittaranjan Store | সকলো অধিকাৰ সংৰক্ষিত</p>
+</footer>
+  
+<script>
+let cart = [];
+let keyPart1 = "bmlsYW5qYW4="; // "nilanjan"
+let keyPart2 = "QDEwIw==";     // "@10#"
+let keyPart3 = "Kg==";         // "*"
+let secretKey = atob(keyPart1) + atob(keyPart2) + atob(keyPart3);
+
+function addToCart(item, price, qtyId) {
+  let qty = parseFloat(document.getElementById(qtyId).value);
+  let totalPrice = price * qty;
+  cart.push({ item, qty, price: totalPrice });
+  displayCart();
+}
+
+function displayCart() {
+  let cartList = document.getElementById('cartItems');
+  let total = 0;
+  cartList.innerHTML = '';
+  cart.forEach((product, index) => {
+    total += product.price;
+    cartList.innerHTML += `<li>${product.item} (${product.qty}) - ₹${product.price}
+      <button onclick="removeItem(${index})">Remove</button></li>`;
+  });
+  document.getElementById('total').innerText = total;
+  let shipping = cart.length > 0 ? 20 : 0;
+  document.getElementById('shipping').innerText = shipping;
+  document.getElementById('finalTotal').innerText = total + shipping;
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  displayCart();
+}
+
+function checkout() {
+  if (cart.length === 0) { alert("কাৰ্ট খালী আছে!"); return; }
+
+  let total = parseFloat(document.getElementById('total').innerText);
+  if (total < 150) { alert("⚠️ Minimum order ₹150 or above!"); return; }
+
+  let shipping = 20;
+  let finalTotal = total + shipping;
+
+  let savedName = localStorage.getItem("customer_name") || "";
+  let savedMobile = localStorage.getItem("customer_mobile") || "";
+
+  let name = prompt("আপোনাৰ নাম লিখক:", savedName);
+  let mobile = prompt("আপোনাৰ মবাইল নম্বৰ লিখক:", savedMobile);
+  let address = prompt("আপোনাৰ ঠিকনা লিখক:");
+
+  if (!name || !mobile || !address) { alert("অনুগ্ৰহ কৰি সকলো তথ্য দিয়ক!"); return; }
+  localStorage.setItem("customer_name", name);
+  localStorage.setItem("customer_mobile", mobile);
+
+  let items = "";
+  cart.forEach(p => { items += `${p.item} (${p.qty}) - ₹${p.price}\n`; });
+
+  let summary = `🛒 Order Summary:\n\n👤 Name: ${name}\n📞 Mobile: ${mobile}\n🏠 Address: ${address}\n\n📦 Items:\n${items}\n💰 Items Total: ₹${total}\n🚚 Shipping: ₹${shipping}\n\n💳 Final Total: ₹${finalTotal}\n\n✅ Confirm this order?`;
+  if (!confirm(summary)) { alert("অ’ৰ্ডাৰ বাতিল কৰা হ’ল।"); return; }
+
+  // Show Loader + Confirmation Fast
+    document.getElementById("loader").style.display = "flex";
+    setTimeout(() => {
+      showConfirmation(name, mobile, address, items, total, shipping, finalTotal);
+  }, 700);
+
+
+    let url = "https://script.google.com/macros/s/AKfycbyBVjuiIcqFFqeeGkJrRbd3evbohbgipyEvBEMyuusucmGe9l4yCqpVx626CdZrOCGOqw/exec"; // ✅ यहां अपना Apps Script URL डालो
+  fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name, mobile, address, items, total, shipping, finalTotal,
+      secret: secretKey
+      })
+  })
+
+  cart = [];
+    displayCart();
+}
+  function showConfirmation(name, mobile, address, items, total, shipping, finalTotal) {
+
+    document.body.innerHTML = `
+      <style>
+        .confirm-box { font-family: Arial; text-align: center; padding: 20px; animation: fadeIn 0.5s ease-in-out; }
+        .items-box { text-align: left; display: inline-block; background: #f8f8f8; padding: 10px; border-radius: 5px; animation: fadeIn 0.2s ease-in-out; }
+        .btn { padding: 10px 20px; background: #2e86c1; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+        .btn:hover { transform: scale(1.1); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      </style>
+      <div class="confirm-box">
+        <h2>✅ অ’ৰ্ডাৰ কনফাৰ্মড!</h2>
+        <p>ধন্যবাদ, ${name}!</p>
+        <p><strong>📞 মবাইল নম্বৰ :</strong> ${mobile}</p>
+        <p><strong>🏠 ঠিকনা:</strong> ${address}</p>
+        <hr>
+        <h3>🛒 আপোনাৰ সামগ্ৰীসমূহ:</h3>
+        <pre class="items-box">${items}</pre>
+        <h2>💰 মুঠ: ₹${total}</h2>
+        <h3>🚚 Shipping: ₹${shipping}</h3>
+        <h2>💳 Final Total: ₹${finalTotal}</h2>
+
+        <hr>
+    
+        <p>আপোনাৰ অ’ৰ্ডাৰ 2 ঘণ্টাৰ ভিতৰত প্ৰসেস কৰা হ’ব।</p>
+        <button class="btn" onclick="window.location.reload()">🏠 নতুন অ’ৰ্ডাৰ কৰক</button>
+        <button class="btn" onclick="window.location.reload()">🏠 বেক কৰক</button>
+
+      </div>`;
+
+}
+</script>
+</body>
+</html>
